@@ -5,6 +5,10 @@ VisualStudioVersion = 17.1.32210.238
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FilterDataGrid", "FilterDataGrid\FilterDataGrid.csproj", "{8A502B45-D20B-481E-B50F-D4A1A4BF3BE9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Demo", "Demo\Demo.csproj", "{FE1C70B2-C4E3-497A-8BE0-A2D8300BB9CF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FilterDataGrid_Net4", "FilterDataGrid_Net4\FilterDataGrid_Net4.csproj", "{2E9B1C76-A52C-42BD-94AF-B821EDAFF090}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{8A502B45-D20B-481E-B50F-D4A1A4BF3BE9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8A502B45-D20B-481E-B50F-D4A1A4BF3BE9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8A502B45-D20B-481E-B50F-D4A1A4BF3BE9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FE1C70B2-C4E3-497A-8BE0-A2D8300BB9CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FE1C70B2-C4E3-497A-8BE0-A2D8300BB9CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FE1C70B2-C4E3-497A-8BE0-A2D8300BB9CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FE1C70B2-C4E3-497A-8BE0-A2D8300BB9CF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2E9B1C76-A52C-42BD-94AF-B821EDAFF090}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2E9B1C76-A52C-42BD-94AF-B821EDAFF090}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2E9B1C76-A52C-42BD-94AF-B821EDAFF090}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2E9B1C76-A52C-42BD-94AF-B821EDAFF090}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
