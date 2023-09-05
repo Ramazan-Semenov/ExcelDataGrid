@@ -3,6 +3,10 @@
                     xmlns:sys="clr-namespace:System;assembly=mscorlib"
                     xmlns:control="clr-namespace:FilterDataGrid_Net4"
                     xmlns:convert="clr-namespace:FilterDataGrid_Net4.Converters"
+                    
+                    xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
+                  xmlns:mah="http://metro.mahapps.com/winfx/xaml/iconpacks" xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
+                    x:Class="FilterDataGrid_Net4.ResourceDictionary_part"
                     >
     <!--  ICON  -->
     <ResourceDictionary.MergedDictionaries>
@@ -19,20 +23,234 @@
     <sys:Boolean x:Key="StayOpen">False</sys:Boolean>
 
 
-    <Style x:Key="DataGridCellExcelStyle" TargetType="DataGridCell" BasedOn="{StaticResource {x:Type DataGridCell}}">
-        <Setter Property="Background" Value="White"/>
-        <Setter Property="VerticalContentAlignment" Value="Center"/>
-        <Setter Property="BorderBrush" Value="Gray"/>
-        <Setter Property="BorderThickness" Value="0"/>
+    <Style  TargetType="{x:Type DataGridCell}">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="BorderBrush" Value="Transparent"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <EventSetter Event="MouseRightButtonUp" Handler="DataGridCell_MouseRightButtonUp"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type DataGridCell}">
+                    <Border Background="{TemplateBinding Background}" BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}" SnapsToDevicePixels="True">
+                        <Grid>
+                            <ContentPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                        </Grid>
+
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
         <Style.Triggers>
+
             <Trigger Property="IsSelected" Value="True">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type DataGridCell}">
+                            <Border Background="{TemplateBinding Background}" BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}" SnapsToDevicePixels="True">
+                                <Grid>
+                                    <ContentPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                                    <Button VerticalAlignment="Bottom" x:Name="IsSelButton" Width="7" Height="7" Background="Green" Margin="0 0 -1 -1" HorizontalAlignment="Right"/>
+                                </Grid>
+
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+                <!--<Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>-->
                 <Setter Property="Background" Value="Transparent"/>
+                <!--<Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.HighlightTextBrushKey}}"/>-->
                 <Setter Property="Foreground" Value="Black"/>
+                <!--<Setter Property="BorderBrush" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>-->
                 <Setter Property="BorderBrush" Value="Green"/>
-                <Setter Property="BorderThickness" Value="1"/>
             </Trigger>
+            <Trigger Property="IsKeyboardFocusWithin" Value="True">
+                <!--<Setter Property="BorderBrush" Value="{DynamicResource {x:Static DataGrid.FocusBorderBrushKey}}"/>-->
+                <Setter Property="BorderBrush" Value="Green"/>
+            </Trigger>
+            <MultiTrigger>
+                <MultiTrigger.Conditions>
+                    <Condition Property="IsSelected" Value="true"/>
+                    <Condition Property="Selector.IsSelectionActive" Value="false"/>
+                </MultiTrigger.Conditions>
+                <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.InactiveSelectionHighlightBrushKey}}"/>
+                <Setter Property="BorderBrush" Value="{DynamicResource {x:Static SystemColors.InactiveSelectionHighlightBrushKey}}"/>
+                <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}}"/>
+            </MultiTrigger>
+            <Trigger Property="IsEnabled" Value="false">
+                <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
+            </Trigger>
+
         </Style.Triggers>
     </Style>
+    <Popup x:Name="z" x:Key="xs"
+               AllowsTransparency="True"
+                IsOpen="False"
+           Width="250"
+           Height="500"
+                StaysOpen="False">
+        <Border BorderThickness="1" BorderBrush="Black"
+                CornerRadius="5"
+                Background="White">
+            <StackPanel Orientation="Vertical" >
+                <TextBox Height="25" Width="190" Margin="3" 
+                         Text="Поиск: в меню"/>
+                <Button Height="25"
+                    BorderBrush="Transparent" HorizontalContentAlignment="Left" BorderThickness="0"
+                        Background="Transparent">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="5"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <md:PackIcon Kind="Scissors" Width="auto" Margin="0 20 0 -20" Height="20">
+                            <md:PackIcon.RenderTransform>
+                                <RotateTransform Angle="-90"/>
+                            </md:PackIcon.RenderTransform>
+                        </md:PackIcon>
+
+                        <TextBlock Grid.Column="2" VerticalAlignment="Center" 
+                                  Text="Вырезать"/>
+                    </Grid>
+                </Button>
+                <Button Height="30"
+                    BorderBrush="Transparent"
+                        HorizontalContentAlignment="Left"
+                        BorderThickness="0"
+                        Background="Transparent">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="5"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <md:PackIcon Kind="ContentCopy" Width="auto"  Height="20">
+                        </md:PackIcon>
+
+                        <TextBlock Grid.Column="2" VerticalAlignment="Center" 
+                                  Text="Копировать"/>
+                    </Grid>
+
+                </Button>
+                <Label Height="25">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="20"/>
+                            <ColumnDefinition Width="5"/>
+                            <ColumnDefinition Width="190"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid  Background="Gray" Grid.Column="2" >
+                            <TextBlock
+                                   Text="Параметры вставки" TextTrimming="WordEllipsis"/>
+
+                        </Grid>
+
+                    </Grid>
+                </Label>
+                <StackPanel Height="25"  Orientation="Horizontal">
+                    <Button Width="10" Height="10"/>
+                    <Button Width="10" Height="10"/>
+                    <Button Width="10" Height="10"/>
+                </StackPanel>
+                <Button Height="25" HorizontalContentAlignment="Left" BorderBrush="Transparent" BorderThickness="0"
+                        Background="Transparent">
+                    <TextBlock Margin="25 0 0 0" Text="Специальная вставка..." TextTrimming="WordEllipsis"/>
+                </Button>
+                <Separator Height="1" Background="LightGray" Margin="25 0 0 0"/>
+                <Button Height="25"
+                        BorderBrush="Transparent" BorderThickness="0"
+                        Background="Transparent"
+                        HorizontalContentAlignment="Left">
+                    <TextBlock Text="Интеллектальный поиск"  Margin="25 0 0 0"/>
+
+                </Button>
+                <Separator Height="1" Background="LightGray" Margin="25 0 0 0"/>
+                <Button Height="25"
+                    BorderBrush="Transparent" 
+                    HorizontalContentAlignment="Left"
+                    BorderThickness="0"
+                        Background="Transparent">
+                    <TextBlock Text="Вставить строку"  Margin="25 0 0 0"/>
+                </Button>
+                <Button Height="25"
+                    BorderBrush="Transparent" BorderThickness="0"
+                        Background="Transparent"
+                        HorizontalContentAlignment="Left">
+                    <TextBlock Text="Удалить строку"  Margin="25 0 0 0"/>
+
+                </Button>
+                <Button Height="25"
+                    BorderBrush="Transparent" BorderThickness="0"
+                        Background="Transparent"
+                        HorizontalContentAlignment="Left">
+                    <TextBlock Text="Очистить содержимое"  Margin="25 0 0 0"/>
+
+                </Button>
+                <Separator Height="1" Background="LightGray" Margin="25 0 0 0"/>
+                <Button Height="25"
+                    BorderBrush="Transparent" BorderThickness="0"
+                        Background="Transparent"
+                        HorizontalContentAlignment="Left">
+                    <TextBlock Text="Экспресс-анализ"  Margin="25 0 0 0"/>
+
+                </Button>
+
+                <MenuItem HorizontalContentAlignment="Left" VerticalContentAlignment="Center">
+                    <MenuItem.Header>
+                        <TextBlock Text="Фильтр"  Margin="-9 0 0 0"/>
+                    </MenuItem.Header>
+                    <Button/>
+                </MenuItem>
+                <MenuItem HorizontalContentAlignment="Left" VerticalContentAlignment="Center">
+                    <MenuItem.Header>
+                        <TextBlock Text="Сортировка"  Margin="-9 0 0 0"/>
+                    </MenuItem.Header>
+                    <Button/>
+                </MenuItem>
+                <Separator Height="1" Background="LightGray" Margin="25 0 0 0"/>
+                <Button Height="25"
+                    BorderBrush="Transparent" BorderThickness="0"
+                        Background="Transparent"
+                        HorizontalContentAlignment="Left">
+                    <TextBlock Text="Получить данные из таблиц..." Margin="25 0 0 0"/>
+                </Button>
+                <Separator Height="1" Background="LightGray" Margin="25 0 0 0"/>
+                <Button Height="25"
+                    BorderBrush="Transparent" BorderThickness="0"
+                        Background="Transparent"
+                        HorizontalContentAlignment="Left">
+                    <TextBlock Text="Вставить примечание" Margin="25 0 0 0"/>
+                </Button>
+                <Separator Height="1" Background="LightGray" Margin="25 0 0 0"/>
+                <Button Height="25"
+                    BorderBrush="Transparent" BorderThickness="0"
+                        Background="Transparent"
+                        HorizontalContentAlignment="Left">
+                    <TextBlock Text="Формат ячеек..." Margin="25 0 0 0"/>
+                </Button>
+                <Button Height="25"
+                    BorderBrush="Transparent" BorderThickness="0"
+                        Background="Transparent"
+                        HorizontalContentAlignment="Left">
+                    <TextBlock Text="Выбрать из раскрывающег..." Margin="25 0 0 0"/>
+                </Button>
+                <Button Height="25"
+                    BorderBrush="Transparent" BorderThickness="0"
+                        Background="Transparent"
+                        HorizontalContentAlignment="Left">
+                    <TextBlock Text="Присвоить имя..." Margin="25 0 0 0"/>
+                </Button>
+                <Separator Height="1" Background="LightGray" Margin="25 0 0 0"/>
+                <Button Height="25"
+                    BorderBrush="Transparent" BorderThickness="0"
+                        Background="Transparent"
+                        HorizontalContentAlignment="Left">
+                    <TextBlock Text="Ссылка..." Margin="25 0 0 0"/>
+                </Button>
+            </StackPanel>
+        </Border>
+    </Popup>
+
     <!--  PLACEHOLDER SEARCH BOX  -->
     <Style x:Key="PlaceHolder" TargetType="{x:Type TextBox}">
         <Setter Property="Background" Value="Transparent" />
@@ -223,7 +441,8 @@
 
     <!--  FILTERDATAGRID STYLE  -->
     <Style BasedOn="{StaticResource {x:Type DataGrid}}" TargetType="{x:Type control:FilterDataGrid}">
-
+        <Setter Property="VerticalGridLinesBrush" Value="LightGray"/>
+        <Setter Property="HorizontalGridLinesBrush" Value="LightGray"/>
         <!--  DATAGRID TEMPLATE  -->
         <Setter Property="Template">
             <Setter.Value>
@@ -233,6 +452,7 @@
                         Padding="{TemplateBinding Padding}"
                         Background="{TemplateBinding Background}"
                         BorderBrush="{TemplateBinding BorderBrush}"
+                       
                         BorderThickness="{TemplateBinding BorderThickness}">
                         <Grid SnapsToDevicePixels="False" UseLayoutRounding="True">
                             <Grid.RowDefinitions>

@@ -16,6 +16,19 @@ using System.Windows.Threading;
 
 namespace FilterDataGrid_Net4
 {
+    public partial class ResourceDictionary_part
+    {
+        public ResourceDictionary_part()
+        {
+          InitializeComponent();
+            //DataGridCell_MouseRightButtonDown=new MouseButtonEventHandler(DataGridCell_MouseRightButtonUp);
+        }
+        private void DataGridCell_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            DataGridCell_MouseRightButtonDown?.Invoke(sender, e);
+        }
+        public static event Action<object, MouseButtonEventArgs> DataGridCell_MouseRightButtonDown;
+    }
     public class FilterDataGrid : DataGrid, INotifyPropertyChanged
     {
         #region Constructors
@@ -25,9 +38,10 @@ namespace FilterDataGrid_Net4
         /// </summary>
         public FilterDataGrid()
         {
-
+           // var x = new ResourceDictionary_part();
+            ResourceDictionary_part.DataGridCell_MouseRightButtonDown += X_DataGridCell_MouseRightButtonDown;
             //Console.WriteLine(this.DefaultStyleKey);
-            DefaultStyleKey = typeof(FilterDataGrid_Net4.FilterDataGrid);
+            //DefaultStyleKey = typeof(FilterDataGrid_Net4.FilterDataGrid);
 
             //Debug.WriteLineIf(DebugMode, "FilterDataGrid.Constructor");
 
@@ -45,7 +59,7 @@ namespace FilterDataGrid_Net4
                 X = (double)TryFindResource("PopupWidth"),
                 Y = (double)TryFindResource("PopupHeight")
             };
-
+            Context=(Popup)TryFindResource("xs");
             CommandBindings.Add(new CommandBinding(ShowFilter, ShowFilterCommand, CanShowFilter));
             CommandBindings.Add(new CommandBinding(ApplyFilter, ApplyFilterCommand, CanApplyFilter)); // Ok
             CommandBindings.Add(new CommandBinding(CancelFilter, CancelFilterCommand));
@@ -53,6 +67,16 @@ namespace FilterDataGrid_Net4
             CommandBindings.Add(new CommandBinding(IsChecked, CheckedAllCommand));
             CommandBindings.Add(new CommandBinding(ClearSearchBox, ClearSearchBoxClick));
             CommandBindings.Add(new CommandBinding(RemoveAllFilter, RemoveAllFilterCommand, CanRemoveAllFilter));
+        }
+        Popup Context;
+        private void X_DataGridCell_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (Context != null)
+            {
+                Context.PlacementTarget = sender as UIElement;
+                Context.IsOpen = true;
+            }
+            Console.WriteLine(sender);
         }
 
         static FilterDataGrid()
@@ -74,6 +98,7 @@ namespace FilterDataGrid_Net4
         public static readonly ICommand RemoveAllFilter = new RoutedCommand();
         public static readonly ICommand RemoveFilter = new RoutedCommand();
         public static readonly ICommand ShowFilter = new RoutedCommand();
+        public static readonly ICommand DataGridCell_MouseRightButtonUp = new RoutedCommand();
 
         #endregion Command
 

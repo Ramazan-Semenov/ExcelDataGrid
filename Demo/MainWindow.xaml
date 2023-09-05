@@ -10,7 +10,9 @@
         Title="MainWindow" Height="450" Width="800">
     <Grid>
 
-        <f:FilterDataGrid Name="MyDataGrid" AutoGenerateColumns="False" Margin="10"  SelectionMode="Extended" SelectionUnit="CellOrRowHeader" BorderBrush="#E5E5E5" BorderThickness="1">
+        <f:FilterDataGrid ColumnWidth="*" 
+                          
+                          Name="MyDataGrid" AutoGenerateColumns="False" Margin="10"  SelectionMode="Extended" SelectionUnit="CellOrRowHeader" BorderThickness="1" ShowRowsCount="True" PersistentFilter="False">
             <DataGrid.Columns>
                 <f:DataGridTextColumn IsColumnFiltered="True" FieldName="Name"  Header="Name" Binding="{Binding Name}"/>
                 <f:DataGridTextColumn  IsColumnFiltered="True" FieldName="Description" Header="Description" Binding="{Binding Description}"/>
@@ -19,24 +21,9 @@
                 <DataGridTextColumn Header="Возраст" Width="100" />
                 <DataGridTextColumn Header="Город" Width="150" />-->
             </DataGrid.Columns>
-            <DataGrid.CellStyle>
-                <Style TargetType="DataGridCell" BasedOn="{StaticResource {x:Type DataGridCell}}">
-                    <Setter Property="Background" Value="White"/>
-                    <Setter Property="VerticalContentAlignment" Value="Center"/>
-                    <Setter Property="BorderBrush" Value="Gray"/>
-                    <Setter Property="BorderThickness" Value="0"/>
-                    <Style.Triggers>
-                        <Trigger Property="IsSelected" Value="True">
-                            <Setter Property="Background" Value="Transparent"/>
-                            <Setter Property="Foreground" Value="Black"/>
-                            <Setter Property="BorderBrush" Value="Green"/>
-                            <Setter Property="BorderThickness" Value="1"/>
-                        </Trigger>
-                    </Style.Triggers>
-                </Style>
+            
              
 
-            </DataGrid.CellStyle>
             <!--<DataGrid.ColumnHeaderStyle>
                 <Style TargetType="{x:Type DataGridColumnHeader}">
                     <Setter Property="Background" Value="#F4F4F4" />
