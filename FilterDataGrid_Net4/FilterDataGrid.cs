@@ -20,7 +20,7 @@ namespace FilterDataGrid_Net4
     {
         public ResourceDictionary_part()
         {
-          InitializeComponent();
+            InitializeComponent();
             //DataGridCell_MouseRightButtonDown=new MouseButtonEventHandler(DataGridCell_MouseRightButtonUp);
         }
         private void DataGridCell_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
@@ -38,7 +38,7 @@ namespace FilterDataGrid_Net4
         /// </summary>
         public FilterDataGrid()
         {
-           // var x = new ResourceDictionary_part();
+            // var x = new ResourceDictionary_part();
             ResourceDictionary_part.DataGridCell_MouseRightButtonDown += X_DataGridCell_MouseRightButtonDown;
             //Console.WriteLine(this.DefaultStyleKey);
             //DefaultStyleKey = typeof(FilterDataGrid_Net4.FilterDataGrid);
@@ -48,7 +48,8 @@ namespace FilterDataGrid_Net4
             // load resources
             var resourceDictionary = new ResourceDictionary
             {
-                Source = new Uri("/FilterDataGrid_Net4;component/Themes/Generic.xaml", UriKind.Relative)
+                //Source = new Uri("/FilterDataGrid_Net4;component/Themes/Generic.xaml", UriKind.Relative)
+                Source = new Uri("/FilterDataGrid_Net4;component/Themes/Generic_LikeExcel.xaml", UriKind.Relative)
             };
 
             Resources.MergedDictionaries.Add(resourceDictionary);
@@ -59,7 +60,7 @@ namespace FilterDataGrid_Net4
                 X = (double)TryFindResource("PopupWidth"),
                 Y = (double)TryFindResource("PopupHeight")
             };
-            Context=(Popup)TryFindResource("xs");
+            Context = (Popup)TryFindResource("xs");
             CommandBindings.Add(new CommandBinding(ShowFilter, ShowFilterCommand, CanShowFilter));
             CommandBindings.Add(new CommandBinding(ApplyFilter, ApplyFilterCommand, CanApplyFilter)); // Ok
             CommandBindings.Add(new CommandBinding(CancelFilter, CancelFilterCommand));
@@ -1769,7 +1770,7 @@ namespace FilterDataGrid_Net4
 
                     // max size
                     grid.MaxWidth = MaxSize(popUpSize.X + delta.X - border);
-                    grid.MaxHeight = MaxSize(popUpSize.Y + delta.Y - border);
+                    //grid.MaxHeight = MaxSize(popUpSize.Y + delta.Y - border);
 
 
                     // remove offset
@@ -1780,11 +1781,11 @@ namespace FilterDataGrid_Net4
                     // the height of popup is too large, reduce it, because it overflows down.
                     if (delta.Y <= 0d)
                     {
-                        grid.MaxHeight = MaxSize(popUpSize.Y - Math.Abs(delta.Y) - border);
-                        grid.Height = grid.MaxHeight;
+                        //grid.MaxHeight = MaxSize(popUpSize.Y - Math.Abs(delta.Y) - border);
+                        //grid.Height = grid.MaxHeight;
 
                         // contributing to the fix : VASHBALDEUS
-                        grid.MinHeight = grid.MaxHeight == 0 ? grid.MinHeight : grid.MaxHeight;
+                        // grid.MinHeight = grid.MaxHeight == 0 ? grid.MinHeight : grid.MaxHeight;
                     }
                 }
             }

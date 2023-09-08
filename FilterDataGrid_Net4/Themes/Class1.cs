@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Windows.Input;
 
 namespace FilterDataGrid_Net4.Themes
 {
-    internal class Class1
+    public partial class Class1
     {
+        private void DataGridCell_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
+        {
+        }
     }
 }

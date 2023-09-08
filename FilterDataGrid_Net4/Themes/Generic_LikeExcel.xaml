@@ -6,7 +6,7 @@
                     
                     xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
                   xmlns:mah="http://metro.mahapps.com/winfx/xaml/iconpacks" xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
-                    x:Class="FilterDataGrid_Net4.ResourceDictionary_part"
+                    x:Class="FilterDataGrid_Net4.Themes.Class1"
                     >
     <!--  ICON  -->
     <ResourceDictionary.MergedDictionaries>
@@ -677,10 +677,12 @@
     <!--  DATATEMPLATE OF DATAGRID COLUMN HEADER  -->
     <DataTemplate x:Key="DataGridHeaderTemplate">
 
-        <!--  HEADER STRECH TO CONTENTPRESENTER OF DATAGRIDCOLUMNHEADER  -->
+        <!--  HEADER STRECH TO CONTENTPRESENTER OF DATAGRIDCOLUMNHEADER 
+                    Width="{Binding RelativeSource={RelativeSource AncestorType={x:Type ContentPresenter}, Mode=FindAncestor, AncestorLevel=1}, Path=ActualWidth}"
+
+        -->
         <Grid
             x:Name="ContainerFilterGrid"
-            Width="{Binding RelativeSource={RelativeSource AncestorType={x:Type ContentPresenter}, Mode=FindAncestor, AncestorLevel=1}, Path=ActualWidth}"
             Background="Transparent">
 
             <!--  HEADER/BUTTON  -->
@@ -748,17 +750,52 @@
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="25" />
+                            <RowDefinition Height="25" />
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="auto" />
                             <RowDefinition Height="*" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="auto" />
                         </Grid.RowDefinitions>
+                        <Button Grid.Column="0" Grid.ColumnSpan="2"
+                                Grid.Row="0" Background="Transparent" BorderBrush="Transparent"
+                                BorderThickness="0" HorizontalContentAlignment="Left">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="32"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <md:PackIcon Kind="SortAlphabeticalAscending" Grid.Column="0"/>
+                                <TextBlock Grid.Column="1" Text="Сортировка от А до Я"/>
+                            </Grid>
+                        </Button>
+                        <Button Grid.Column="0" Grid.ColumnSpan="2"
+                                Grid.Row="1" Background="Transparent" BorderBrush="Transparent"
+                                BorderThickness="0" HorizontalContentAlignment="Left">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="32"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <md:PackIcon Kind="SortAlphabeticalDescending" Grid.Column="0"/>
+                                <TextBlock Grid.Column="1" Text="Сортировка от А до Я"/>
+                            </Grid>
+                        </Button>
+                        <MenuItem
+                                  Grid.Column="1" Grid.Row="2">
+                            <MenuItem.Header>
+                                <TextBlock HorizontalAlignment="Left" Text="Сортировка по цвету"/>
+                            </MenuItem.Header>
+                            <Button/>
+                        </MenuItem>
 
                         <!--  Row 0: BUTTON CLEAR FILTER  -->
                         <Button
                             x:Name="ClearFilterBnt"
-                            Grid.Row="0"
+                            Grid.Row="4"
                             Grid.Column="0"
                             Grid.ColumnSpan="2"
                             Margin="2,10,2,2"
@@ -836,8 +873,9 @@
                             </Button.Style>
                         </Button>
 
+                        
                         <!--  Row 1: SEPARATOR / SEARCH BOX  -->
-                        <Grid Grid.Row="1" Grid.Column="1">
+                        <Grid Grid.Row="5" Grid.Column="1">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="*" />
@@ -900,7 +938,7 @@
                         <!--  Row 2, Col 0 : ICON (filter is active)  -->
                         <Path
                             x:Name="PathIsFiltered"
-                            Grid.Row="2"
+                            Grid.Row="6"
                             Grid.Column="0"
                             Width="19"
                             Height="20"
@@ -927,7 +965,7 @@
                         <!--  Row 2, Col 1 : (LISTBOX/TREEVIEW)  -->
                         <Grid
                             x:Name="GridItemControl"
-                            Grid.Row="2"
+                            Grid.Row="6"
                             Grid.Column="1"
                             Margin="0,4,4,4"
                             DataContext="{Binding RelativeSource={RelativeSource AncestorType={x:Type control:FilterDataGrid}}}">
@@ -946,6 +984,7 @@
                                 ScrollViewer.HorizontalScrollBarVisibility="Auto"
                                 ScrollViewer.VerticalScrollBarVisibility="Auto"
                                 TabIndex="2">
+                              
                                 <ListBox.ItemContainerStyle>
                                     <Style BasedOn="{StaticResource {x:Type ListBoxItem}}" TargetType="{x:Type ListBoxItem}">
                                         <Setter Property="HorizontalContentAlignment" Value="Left" />
@@ -954,7 +993,9 @@
                                 </ListBox.ItemContainerStyle>
                                 <ListBox.ItemTemplate>
                                     <DataTemplate DataType="{x:Type control:FilterItem}">
-                                        <CheckBox
+                                   
+
+                                            <CheckBox
                                             x:Name="CheckBox"
                                             Width="Auto"
                                             HorizontalAlignment="Stretch"
@@ -964,18 +1005,19 @@
                                             FontWeight="Normal"
                                             IsChecked="{Binding IsChecked}"
                                             IsThreeState="False">
-                                            <CheckBox.Content>
-                                                <TextBlock>
-                                                    <TextBlock.Text>
-                                                        <MultiBinding Converter="{StaticResource StringFormatConverter}" ConverterParameter="Culture">
-                                                            <Binding Path="Translate.Neutral" RelativeSource="{RelativeSource AncestorType={x:Type control:FilterDataGrid}}" />
-                                                            <Binding Path="Label" />
-                                                            <Binding Path="Translate.Culture" RelativeSource="{RelativeSource AncestorType={x:Type control:FilterDataGrid}}" />
-                                                        </MultiBinding>
-                                                    </TextBlock.Text>
-                                                </TextBlock>
-                                            </CheckBox.Content>
-                                        </CheckBox>
+                                                <CheckBox.Content>
+                                                    <TextBlock>
+                                                        <TextBlock.Text>
+                                                            <MultiBinding Converter="{StaticResource StringFormatConverter}" ConverterParameter="Culture">
+                                                                <Binding Path="Translate.Neutral" RelativeSource="{RelativeSource AncestorType={x:Type control:FilterDataGrid}}" />
+                                                                <Binding Path="Label" />
+                                                                <Binding Path="Translate.Culture" RelativeSource="{RelativeSource AncestorType={x:Type control:FilterDataGrid}}" />
+                                                            </MultiBinding>
+                                                        </TextBlock.Text>
+                                                    </TextBlock>
+                                                </CheckBox.Content>
+                                            </CheckBox>
+
                                         <DataTemplate.Triggers>
                                             <DataTrigger Binding="{Binding Level}" Value="1">
                                                 <Setter TargetName="CheckBox" Property="Margin" Value="4,0,0,0" />
@@ -1047,7 +1089,7 @@
 
                         <!--  Row 3: OK/CANCEL BUTTON  -->
                         <UniformGrid
-                            Grid.Row="3"
+                            Grid.Row="8"
                             Grid.Column="1"
                             Margin="0,6,4,6"
                             HorizontalAlignment="Right"
@@ -1077,7 +1119,7 @@
                         <!--  Row 4: RESIZE GRIP  -->
                         <Thumb
                             x:Name="PopupThumb"
-                            Grid.Row="4"
+                            Grid.Row="9"
                             Grid.Column="0"
                             Grid.ColumnSpan="2"
                             Width="20"
