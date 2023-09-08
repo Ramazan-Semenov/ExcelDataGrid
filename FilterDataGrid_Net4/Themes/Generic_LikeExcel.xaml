@@ -721,13 +721,15 @@
                 </Button>
             </Grid>
 
-            <!--  POPUP  -->
+            <!--  POPUP 
+                            StaysOpen="{StaticResource StayOpen}"
+-->
             <Popup
                 Name="FilterPopup"
                 AllowsTransparency="True"
                 IsOpen="False"
                 PlacementTarget="{Binding ElementName=ContainerFilterGrid}"
-                StaysOpen="{StaticResource StayOpen}">
+                                StaysOpen="True">
 
                 <Border
                     x:Name="PopUpBorder"
@@ -746,87 +748,99 @@
                         ZIndex="1">
 
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" MinWidth="32" />
+                            <ColumnDefinition Width="32" MinWidth="32" />
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="auto" />
-                            <RowDefinition Height="25" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="auto" />
+                            
+                            <!--<RowDefinition Height="25" />
                             <RowDefinition Height="25" />
                             <RowDefinition Height="auto" />
                             <RowDefinition Height="auto" />
                             <RowDefinition Height="auto" />
                             <RowDefinition Height="*" />
                             <RowDefinition Height="auto" />
-                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="auto" />-->
                         </Grid.RowDefinitions>
-                        <Button Grid.Column="0" Grid.ColumnSpan="2"
-                                Grid.Row="0" Background="Transparent" BorderBrush="Transparent"
+                        <StackPanel  Grid.Column="0" Grid.ColumnSpan="2">
+                            <Button FontFamily="Microsoft JhengHei" FontSize="12"                                    
+                                    Background="Transparent" BorderBrush="Transparent"
                                 BorderThickness="0" HorizontalContentAlignment="Left">
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="32"/>
-                                    <ColumnDefinition Width="*"/>
-                                </Grid.ColumnDefinitions>
-                                <md:PackIcon Kind="SortAlphabeticalAscending" Grid.Column="0"/>
-                                <TextBlock Grid.Column="1" Text="Сортировка от А до Я"/>
-                            </Grid>
-                        </Button>
-                        <Button Grid.Column="0" Grid.ColumnSpan="2"
-                                Grid.Row="1" Background="Transparent" BorderBrush="Transparent"
-                                BorderThickness="0" HorizontalContentAlignment="Left">
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="32"/>
-                                    <ColumnDefinition Width="*"/>
-                                </Grid.ColumnDefinitions>
-                                <md:PackIcon Kind="SortAlphabeticalDescending" Grid.Column="0"/>
-                                <TextBlock Grid.Column="1" Text="Сортировка от А до Я"/>
-                            </Grid>
-                        </Button>
-                        <MenuItem
-                                  Grid.Column="1" Grid.Row="2">
-                            <MenuItem.Header>
-                                <TextBlock HorizontalAlignment="Left" Text="Сортировка по цвету"/>
-                            </MenuItem.Header>
-                            <Button/>
-                        </MenuItem>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="32"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
 
-                        <!--  Row 0: BUTTON CLEAR FILTER  -->
-                        <Button
+                                    <Image Grid.Column="0" Stretch="Uniform" Height="20" HorizontalAlignment="Left" VerticalAlignment="Center" Source="/Images/Asc.png"/>
+                                    <TextBlock Grid.Column="1" VerticalAlignment="Center" Text="Сортировка от А до Я"/>
+                                </Grid>
+                            </Button>
+                            <Button FontFamily="Microsoft JhengHei" FontSize="12" Background="Transparent" BorderBrush="Transparent"
+                                BorderThickness="0" HorizontalContentAlignment="Left">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="32"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Image Grid.Column="0" Stretch="Uniform" Height="20" HorizontalAlignment="Left" VerticalAlignment="Center" Source="/Images/Desc.png"/>
+
+                                    <TextBlock Grid.Column="1" Text="Сортировка от Я до А"/>
+                                </Grid>
+                            </Button>
+                            <MenuItem HorizontalContentAlignment="Left">
+                                <MenuItem.Header>
+                                    <TextBlock FontFamily="Microsoft JhengHei" FontSize="12" HorizontalAlignment="Left" Text="Сортировка по цвету"/>
+                                </MenuItem.Header>
+                                <Button/>
+                            </MenuItem>
+                            <Separator Margin="32 0 0 0" Background="LightGray" Height="1"/>
+                            <MenuItem IsEnabled="False" HorizontalContentAlignment="Left">
+                                <MenuItem.Header>
+                                    <TextBlock FontFamily="Microsoft JhengHei" FontSize="12" Foreground="LightGray" HorizontalAlignment="Left" Text="Представление по цвету"/>
+                                </MenuItem.Header>
+                                <Button/>
+                            </MenuItem>
+                            <Separator Margin="32 0 0 0" Background="LightGray" Height="1"/>
+
+                            <!--  Row 0: BUTTON CLEAR FILTER  -->
+                            <Button
                             x:Name="ClearFilterBnt"
                             Grid.Row="4"
                             Grid.Column="0"
                             Grid.ColumnSpan="2"
-                            Margin="2,10,2,2"
+                                FontFamily="Microsoft JhengHei" FontSize="12"
                             Padding="4"
                             HorizontalAlignment="Stretch"
                             Command="{x:Static control:FilterDataGrid.RemoveFilter}"
                             Content="{Binding Path=Content, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type DataGridColumnHeader}}, UpdateSourceTrigger=PropertyChanged}"
-                            FontSize="13"
                             Foreground="{Binding RelativeSource={RelativeSource AncestorType={x:Type control:FilterDataGrid}}, Path=Foreground}"
                             TabIndex="0">
-                            <Button.Style>
-                                <Style TargetType="{x:Type Button}">
-                                    <Setter Property="Template">
-                                        <Setter.Value>
-                                            <ControlTemplate TargetType="{x:Type Button}">
-                                                <Border
+                                <Button.Style>
+                                    <Style TargetType="{x:Type Button}">
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="{x:Type Button}">
+                                                    <Border
                                                     x:Name="BorderContent"
                                                     Padding="{TemplateBinding Padding}"
                                                     BorderBrush="Transparent"
                                                     BorderThickness="0.5"
                                                     UseLayoutRounding="True">
-                                                    <Grid
+                                                        <Grid
                                                         x:Name="ContentGrid"
                                                         Background="Transparent"
                                                         SnapsToDevicePixels="False"
                                                         UseLayoutRounding="True">
-                                                        <Grid.ColumnDefinitions>
-                                                            <ColumnDefinition Width="Auto" />
-                                                            <ColumnDefinition Width="*" />
-                                                        </Grid.ColumnDefinitions>
-                                                        <Path
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="Auto" />
+                                                                <ColumnDefinition Width="*" />
+                                                            </Grid.ColumnDefinitions>
+                                                            <Path
                                                             Grid.Column="0"
                                                             Width="16"
                                                             Margin="0,0,10,0"
@@ -834,61 +848,76 @@
                                                             Data="{DynamicResource FilterDelete}"
                                                             Fill="{TemplateBinding Foreground}"
                                                             Stretch="Uniform" />
-                                                        <TextBlock
+                                                            <TextBlock
                                                             x:Name="ContentPresenter"
                                                             Grid.Column="1"
                                                             HorizontalAlignment="Stretch"
                                                             DataContext="{Binding RelativeSource={RelativeSource AncestorType={x:Type control:FilterDataGrid}}}">
-                                                            <TextBlock.Text>
-                                                                <MultiBinding Converter="{StaticResource StringFormatConverter}" ConverterParameter="Culture">
-                                                                    <MultiBinding.Bindings>
-                                                                        <Binding
+                                                                <TextBlock.Text>
+                                                                    <MultiBinding Converter="{StaticResource StringFormatConverter}" ConverterParameter="Culture">
+                                                                        <MultiBinding.Bindings>
+                                                                            <Binding
                                                                             Path="Translate.Clear"
                                                                             TargetNullValue=""
                                                                             UpdateSourceTrigger="PropertyChanged" />
-                                                                        <Binding ElementName="ClearFilterBnt" Path="Content" />
-                                                                        <Binding Path="Translate.Culture" />
-                                                                    </MultiBinding.Bindings>
-                                                                </MultiBinding>
-                                                            </TextBlock.Text>
-                                                        </TextBlock>
-                                                    </Grid>
-                                                </Border>
-                                                <ControlTemplate.Triggers>
-                                                    <Trigger Property="IsMouseOver" Value="True">
-                                                        <Setter TargetName="BorderContent" Property="Opacity" Value="0.7" />
-                                                        <Setter Property="Cursor" Value="Hand" />
-                                                    </Trigger>
-                                                    <Trigger Property="IsPressed" Value="True">
-                                                        <Setter Property="Opacity" Value="0.5" />
-                                                    </Trigger>
-                                                    <Trigger Property="IsEnabled" Value="False">
-                                                        <Setter Property="Opacity" Value="0.5" />
-                                                    </Trigger>
-                                                </ControlTemplate.Triggers>
-                                            </ControlTemplate>
-                                        </Setter.Value>
-                                    </Setter>
-                                </Style>
-                            </Button.Style>
-                        </Button>
+                                                                            <Binding ElementName="ClearFilterBnt" Path="Content" />
+                                                                            <Binding Path="Translate.Culture" />
+                                                                        </MultiBinding.Bindings>
+                                                                    </MultiBinding>
+                                                                </TextBlock.Text>
+                                                            </TextBlock>
+                                                        </Grid>
+                                                    </Border>
+                                                    <ControlTemplate.Triggers>
+                                                        <Trigger Property="IsMouseOver" Value="True">
+                                                            <Setter TargetName="BorderContent" Property="Opacity" Value="0.7" />
+                                                            <Setter Property="Cursor" Value="Hand" />
+                                                        </Trigger>
+                                                        <Trigger Property="IsPressed" Value="True">
+                                                            <Setter Property="Opacity" Value="0.5" />
+                                                        </Trigger>
+                                                        <Trigger Property="IsEnabled" Value="False">
+                                                            <Setter Property="Opacity" Value="0.5" />
+                                                        </Trigger>
+                                                    </ControlTemplate.Triggers>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </Button.Style>
+                            </Button>
 
-                        
-                        <!--  Row 1: SEPARATOR / SEARCH BOX  -->
-                        <Grid Grid.Row="5" Grid.Column="1">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="*" />
-                            </Grid.RowDefinitions>
+                            <MenuItem IsEnabled="False" HorizontalContentAlignment="Left">
+                                <MenuItem.Header>
+                                    <TextBlock FontFamily="Microsoft JhengHei" FontSize="12" Foreground="LightGray" HorizontalAlignment="Left" Text="Фильтр по цвету"/>
+                                </MenuItem.Header>
+                                <Button/>
+                            </MenuItem>
+                            <MenuItem HorizontalContentAlignment="Left">
+                                <MenuItem.Header>
+                                    <TextBlock HorizontalAlignment="Left" FontFamily="Microsoft JhengHei" FontSize="12" Text="Текстовые фильтры"/>
+                                </MenuItem.Header>
+                                <Button/>
+                            </MenuItem>
 
-                            <!--  Row 1: SEPARATOR  -->
-                            <Separator
+
+                            <Separator Margin="32 0 0 0" Background="LightGray" Height="1"/>
+
+                            <!--  Row 1: SEPARATOR / SEARCH BOX  -->
+                            <Grid Margin="32 0 0 0">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+
+                                <!--  Row 1: SEPARATOR  --><!--
+                                <Separator
                                 Grid.Row="0"
                                 Margin="0,2"
-                                Background="{Binding RelativeSource={RelativeSource AncestorType={x:Type Border}, Mode=FindAncestor, AncestorLevel=1}, Path=BorderBrush}" />
+                                Background="{Binding RelativeSource={RelativeSource AncestorType={x:Type Border}, Mode=FindAncestor, AncestorLevel=1}, Path=BorderBrush}" />-->
 
-                            <!--  Row 2: SEARCH BOX  -->
-                            <Border
+                                <!--  Row 2: SEARCH BOX  -->
+                                <Border
                                 Grid.Row="1"
                                 Margin="0,4,4,2"
                                 Padding="0,2"
@@ -896,13 +925,13 @@
                                 Background="Transparent"
                                 BorderBrush="{Binding RelativeSource={RelativeSource AncestorType={x:Type Border}, Mode=FindAncestor, AncestorLevel=1}, Path=BorderBrush}"
                                 BorderThickness="1">
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="Auto" />
-                                    </Grid.ColumnDefinitions>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
 
-                                    <TextBox
+                                        <TextBox
                                         x:Name="SearchBox"
                                         Grid.Column="0"
                                         Margin="0"
@@ -917,28 +946,34 @@
                                         Style="{StaticResource PlaceHolder}"
                                         TabIndex="1"
                                         Tag="{Binding Translate.Contains}">
-                                        <TextBox.InputBindings>
-                                            <KeyBinding Key="Enter" Command="{x:Static control:FilterDataGrid.ApplyFilter}" />
-                                        </TextBox.InputBindings>
-                                    </TextBox>
-                                </Grid>
-                            </Border>
-                            <Grid.Style>
-                                <Style TargetType="Grid">
-                                    <Setter Property="Visibility" Value="Visible" />
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type control:FilterDataGrid}}, Path=FieldType}" Value="{x:Type sys:Boolean}">
-                                            <Setter Property="Visibility" Value="Collapsed" />
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </Grid.Style>
-                        </Grid>
+                                            <TextBox.InputBindings>
+                                                <KeyBinding Key="Enter" Command="{x:Static control:FilterDataGrid.ApplyFilter}" />
+                                            </TextBox.InputBindings>
+                                        </TextBox>
+                                    </Grid>
+                                </Border>
+                                <Grid.Style>
+                                    <Style TargetType="Grid">
+                                        <Setter Property="Visibility" Value="Visible" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type control:FilterDataGrid}}, Path=FieldType}" Value="{x:Type sys:Boolean}">
+                                                <Setter Property="Visibility" Value="Collapsed" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Grid.Style>
+                            </Grid>
+                            
+                        </StackPanel>
+                   
+
+                        
+                       
 
                         <!--  Row 2, Col 0 : ICON (filter is active)  -->
-                        <Path
+                        <!--<Path
                             x:Name="PathIsFiltered"
-                            Grid.Row="6"
+                            Grid.Row="3"
                             Grid.Column="0"
                             Width="19"
                             Height="20"
@@ -960,12 +995,12 @@
                                     </Style.Triggers>
                                 </Style>
                             </Path.Style>
-                        </Path>
+                        </Path>-->
 
                         <!--  Row 2, Col 1 : (LISTBOX/TREEVIEW)  -->
                         <Grid
                             x:Name="GridItemControl"
-                            Grid.Row="6"
+                            Grid.Row="1"
                             Grid.Column="1"
                             Margin="0,4,4,4"
                             DataContext="{Binding RelativeSource={RelativeSource AncestorType={x:Type control:FilterDataGrid}}}">
@@ -1089,7 +1124,7 @@
 
                         <!--  Row 3: OK/CANCEL BUTTON  -->
                         <UniformGrid
-                            Grid.Row="8"
+                            Grid.Row="2"
                             Grid.Column="1"
                             Margin="0,6,4,6"
                             HorizontalAlignment="Right"
@@ -1119,7 +1154,7 @@
                         <!--  Row 4: RESIZE GRIP  -->
                         <Thumb
                             x:Name="PopupThumb"
-                            Grid.Row="9"
+                            Grid.Row="3"
                             Grid.Column="0"
                             Grid.ColumnSpan="2"
                             Width="20"
