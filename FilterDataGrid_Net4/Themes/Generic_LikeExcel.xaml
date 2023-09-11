@@ -3,7 +3,7 @@
                     xmlns:sys="clr-namespace:System;assembly=mscorlib"
                     xmlns:control="clr-namespace:FilterDataGrid_Net4"
                     xmlns:convert="clr-namespace:FilterDataGrid_Net4.Converters"
-                    
+                    xmlns:l="clr-namespace:FilterDataGrid_Net4.Themes"
                     xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
                   xmlns:mah="http://metro.mahapps.com/winfx/xaml/iconpacks" xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
                     x:Class="FilterDataGrid_Net4.Themes.Class1"
@@ -147,11 +147,42 @@
 
                     </Grid>
                 </Label>
-                <StackPanel Height="25"  Orientation="Horizontal">
-                    <Button Width="10" Height="10"/>
-                    <Button Width="10" Height="10"/>
-                    <Button Width="10" Height="10"/>
-                </StackPanel>
+                <WrapPanel  Height="25" Margin="30 0 0 0"  
+                           ItemHeight="25" ItemWidth="30"
+                           Orientation="Horizontal">
+                    <Button Background="Transparent">
+                        <Button.ToolTip>
+                            <ToolTip Content="Вставить в таблицу"/>
+                        </Button.ToolTip>
+                        <md:PackIcon Kind="ContentPaste" Width="auto" Height="auto"/>
+                    </Button>
+                    <Button Background="Transparent" Click="AddColumnClick">
+                        <Button.ToolTip>
+                            <ToolTip Content="Добавить столбец" />
+                        </Button.ToolTip>
+                        <md:PackIcon Kind="Add" Width="auto" Height="auto"/>
+                    </Button>
+                    <Button Background="Transparent">
+                        <Button.ToolTip>
+                            <ToolTip Content="Удалить столбец"/>
+                        </Button.ToolTip>
+                        <md:PackIcon Kind="BoxVariantSubtract" Width="auto" Height="auto"/>
+                    </Button>
+                    <Button Background="Transparent">
+                        <Button.ToolTip>
+                            <ToolTip Content="Вставить формулу"/>
+                        </Button.ToolTip>
+                        <md:PackIcon Kind="MathIntegralBox" Width="auto" Height="auto"/>
+                    </Button>
+                    <Button Background="Transparent" Click="UpdateColumnClick" CommandParameter="{Binding .,RelativeSource={RelativeSource AncestorType=Popup}}">
+                        <Button.ToolTip>
+                            <ToolTip Content="Обновить расчет"/>
+                        </Button.ToolTip>
+                        <md:PackIcon Kind="MathIntegralBox" Width="auto" Height="auto"/>
+                    </Button>
+                  
+                 
+                </WrapPanel>
                 <Button Height="25" HorizontalContentAlignment="Left" BorderBrush="Transparent" BorderThickness="0"
                         Background="Transparent">
                     <TextBlock Margin="25 0 0 0" Text="Специальная вставка..." TextTrimming="WordEllipsis"/>
@@ -494,6 +525,7 @@
                                                 ToolTipService.Placement="Left"
                                                 ToolTipService.VerticalOffset="24">
                                                 <Button.Content>
+                                                    
                                                     <Grid SnapsToDevicePixels="False" UseLayoutRounding="True">
                                                         <Path
                                                             Width="13"
@@ -720,16 +752,16 @@
                     </Button.Style>
                 </Button>
             </Grid>
-
+            
             <!--  POPUP 
-                            StaysOpen="{StaticResource StayOpen}"
+                            
 -->
             <Popup
                 Name="FilterPopup"
                 AllowsTransparency="True"
                 IsOpen="False"
                 PlacementTarget="{Binding ElementName=ContainerFilterGrid}"
-                                StaysOpen="True">
+                                StaysOpen="{StaticResource StayOpen}">
 
                 <Border
                     x:Name="PopUpBorder"
@@ -767,7 +799,9 @@
                             <RowDefinition Height="auto" />-->
                         </Grid.RowDefinitions>
                         <StackPanel  Grid.Column="0" Grid.ColumnSpan="2">
-                            <Button FontFamily="Microsoft JhengHei" FontSize="12"                                    
+                            <Button FontFamily="Microsoft JhengHei" FontSize="12" 
+                                    Click="AscDescClick" 
+                                    Tag="{x:Static l:CommandContextMenu.Asc}" CommandParameter="{Binding .,RelativeSource={RelativeSource AncestorType=DataGridColumnHeader}}"
                                     Background="Transparent" BorderBrush="Transparent"
                                 BorderThickness="0" HorizontalContentAlignment="Left">
                                 <Grid>
@@ -776,18 +810,20 @@
                                         <ColumnDefinition Width="*"/>
                                     </Grid.ColumnDefinitions>
 
-                                    <Image Grid.Column="0" Stretch="Uniform" Height="20" HorizontalAlignment="Left" VerticalAlignment="Center" Source="/Images/Asc.png"/>
+                                    <Image Grid.Column="0" Stretch="Uniform" Height="20" HorizontalAlignment="Left" VerticalAlignment="Center" 
+                                           Source="/FilterDataGrid_Net4;component/Images/Asc.png"/>
                                     <TextBlock Grid.Column="1" VerticalAlignment="Center" Text="Сортировка от А до Я"/>
                                 </Grid>
                             </Button>
-                            <Button FontFamily="Microsoft JhengHei" FontSize="12" Background="Transparent" BorderBrush="Transparent"
+                            <Button Click="AscDescClick" Tag="{x:Static l:CommandContextMenu.Asc}" CommandParameter="{Binding .,RelativeSource={RelativeSource AncestorType=DataGridColumnHeader}}" FontFamily="Microsoft JhengHei" FontSize="12" Background="Transparent" BorderBrush="Transparent"
                                 BorderThickness="0" HorizontalContentAlignment="Left">
                                 <Grid>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="32"/>
                                         <ColumnDefinition Width="*"/>
                                     </Grid.ColumnDefinitions>
-                                    <Image Grid.Column="0" Stretch="Uniform" Height="20" HorizontalAlignment="Left" VerticalAlignment="Center" Source="/Images/Desc.png"/>
+
+                                    <Image Grid.Column="0" Stretch="Uniform" Height="20" HorizontalAlignment="Left" VerticalAlignment="Center" Source="/FilterDataGrid_Net4;component/Images/Desc.png"/>
 
                                     <TextBlock Grid.Column="1" Text="Сортировка от Я до А"/>
                                 </Grid>
@@ -1205,6 +1241,15 @@
                     </Grid>
                 </Border>
             </Popup>
+            <Grid.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Click="AddColumnClick" Header="Добавить столбец">
+                        <MenuItem.Icon>
+                            <md:PackIcon Kind="Plus"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                </ContextMenu>
+            </Grid.ContextMenu>
         </Grid>
     </DataTemplate>
 </ResourceDictionary>

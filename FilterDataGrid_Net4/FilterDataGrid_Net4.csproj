@@ -170,6 +170,8 @@
     <Compile Include="FilterHelpers.cs" />
     <Compile Include="FilterItem.cs" />
     <Compile Include="Loc.cs" />
+    <Compile Include="Model\IColumnsToCalculate.cs" />
+    <Compile Include="Model\MathParser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

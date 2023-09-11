@@ -1,7 +1,10 @@
-﻿using System;
+﻿using FilterDataGrid_Net4.Model;
+using FilterDataGrid_Net4.Themes;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Data;
 using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
@@ -39,7 +42,8 @@ namespace FilterDataGrid_Net4
         public FilterDataGrid()
         {
             // var x = new ResourceDictionary_part();
-            ResourceDictionary_part.DataGridCell_MouseRightButtonDown += X_DataGridCell_MouseRightButtonDown;
+            Class1.DataGridCell_MouseRightButtonDown += X_DataGridCell_MouseRightButtonDown;
+            Class1.AddColumnClickEvent += Class1_AddColumnClickEvent; ;
             //Console.WriteLine(this.DefaultStyleKey);
             //DefaultStyleKey = typeof(FilterDataGrid_Net4.FilterDataGrid);
 
@@ -69,6 +73,37 @@ namespace FilterDataGrid_Net4
             CommandBindings.Add(new CommandBinding(ClearSearchBox, ClearSearchBoxClick));
             CommandBindings.Add(new CommandBinding(RemoveAllFilter, RemoveAllFilterCommand, CanRemoveAllFilter));
         }
+        static int NumberCol = 0;
+        public class xd
+        {
+            public object s { get; set; }
+        }
+        string formula = "((1+1)*2)*5+((2+2)+1)*2*5+((2+2)+1)*2*5+((2+2)+1)*2*5+((2+2)+1)*2*5+((2+2)+1)*2";
+        MathParser Parser = new MathParser();
+        private void Class1_AddColumnClickEvent(object arg1, RoutedEventArgs arg2)
+        {
+            foreach (var item in Items)
+            {
+
+                if (item is IColumnsToCalculate cl)
+                {
+                    if (cl.ToNameCalculate.TryGetValue(NumberCol.ToString(), out double x))
+                    {
+                        x = Parser.Parse(formula);
+                    }
+                    else
+                    {
+                        cl.ToNameCalculate.Add(NumberCol.ToString(), Parser.Parse(formula));
+                    }
+                }
+            }
+
+            var z = new DataGridTextColumn { Header = NumberCol, Binding = new Binding($"ToNameCalculate[{NumberCol.ToString()}]") };
+            Columns.Add(z);
+
+
+            NumberCol++;
+        }
         Popup Context;
         private void X_DataGridCell_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
@@ -77,7 +112,6 @@ namespace FilterDataGrid_Net4
                 Context.PlacementTarget = sender as UIElement;
                 Context.IsOpen = true;
             }
-            Console.WriteLine(sender);
         }
 
         static FilterDataGrid()
