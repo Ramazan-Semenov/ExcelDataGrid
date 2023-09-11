@@ -72,7 +72,108 @@ namespace FilterDataGrid_Net4
             CommandBindings.Add(new CommandBinding(IsChecked, CheckedAllCommand));
             CommandBindings.Add(new CommandBinding(ClearSearchBox, ClearSearchBoxClick));
             CommandBindings.Add(new CommandBinding(RemoveAllFilter, RemoveAllFilterCommand, CanRemoveAllFilter));
+            this.KeyDown += FilterDataGrid_KeyDown;
+            this.Sorting += FilterDataGrid_Sorting;
         }
+        private List<SortDescription> SortDescriptions;
+        private bool ShiftPressed { get { return (Keyboard.Modifiers & ModifierKeys.Shift) == ModifierKeys.Shift; } }
+        private void FilterDataGrid_Sorting(object sender, DataGridSortingEventArgs e)
+        {
+            e.Handled = true;
+            e.Column.SortDirection = e.Column.SortDirection != System.ComponentModel.ListSortDirection.Ascending
+                                    ? ListSortDirection.Ascending
+                                    : ListSortDirection.Descending;
+            var sd = new SortDescription(e.Column.SortMemberPath, e.Column.SortDirection.Value);
+            Items.SortDescriptions.Clear();
+            if (SortDescriptions == null)
+            {
+                SortDescriptions = new List<SortDescription>();
+            }
+            if (ShiftPressed)
+            {
+                SortDescriptions = SortDescriptions.Where(x => x.PropertyName != sd.PropertyName).ToList(); ;
+                SortDescriptions.Add(sd);
+            }
+            else
+            {
+                SortDescriptions.Clear();
+                SortDescriptions.Add(sd);
+            }
+            for (int i = 0; i < SortDescriptions.Count; i++)
+            {
+                Items.SortDescriptions.Add(SortDescriptions[i]);
+            }
+        }
+
+        private void FilterDataGrid_KeyDown(object sender, KeyEventArgs e)
+        {
+            try
+            {
+                if (e.OriginalSource is DataGridCell c)
+                {
+                    DataGridCell cell = c;
+                    System.Windows.Controls.DataGridTextColumn column = (cell.Column as System.Windows.Controls.DataGridTextColumn);
+                    if (e.Key == Key.V && (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control)
+                    {
+                        string clip = Clipboard.GetText();
+                        List<string[]> vs = new List<string[]>();
+                        string[] lines = clip.Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+                        foreach (var s in lines)
+                        {
+                            vs.Add(s.Split('\n'));
+                        }
+                        if (vs.Count == 0)
+                        {
+                            vs.Add("".Split());
+                        }
+                        List<string[]> clipboardData = vs;
+                        bool IsPast = true;
+                        if (this.SelectedCells.Count > 2)
+                        {
+                            for (int i = 0; i < this.SelectedCells.Count; i++)
+                            {
+                                this.SelectedCells[i].Column.OnPastingCellClipboardContent(this.SelectedCells[i].Item, clipboardData[0][0]);
+                                //if (this.SelectedCells[i].Column is FilterDataGrid_Net4.DataGridTextColumn s)
+                                //{
+
+                                //}
+                            }
+                        }
+                        else
+                        {
+                            int IndexColumnStart = cell.Column.DisplayIndex;
+                            int IndexColumnEnd = vs[0].Length > (this.Columns.Count - IndexColumnStart) ? this.Columns.Count : IndexColumnStart + vs[0].Length;
+                            int minRowIndex = this.Items.IndexOf(this.CurrentItem);
+                            int maxRowIndex = (minRowIndex + clipboardData.Count) > this.Items.Count ? this.Items.Count : (minRowIndex + clipboardData.Count);
+                            for (int i = minRowIndex; i < (minRowIndex + clipboardData.Count)/*maxRowIndex*/; i++)
+                            {
+                                for (int j = IndexColumnStart; j < IndexColumnEnd; j++)
+                                {
+                                    if (this.Items.Count >= i)
+                                    {
+                                        this.Columns[j].OnPastingCellClipboardContent(this.Items[i], clipboardData[i - minRowIndex][j - IndexColumnStart]);
+
+                                    }
+                                    else
+                                    {
+                                        (CollectionViewSource as IEditableCollectionView)?.AddNew();
+                                    }
+
+                                }
+                            }
+                        }
+
+                    }
+
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
         static int NumberCol = 0;
         public class xd
         {
@@ -1519,19 +1620,19 @@ namespace FilterDataGrid_Net4
                 {
                     // contribution : STEFAN HEIMEL
                     Dispatcher.Invoke(() =>
-                    {
-                        if (fieldType == typeof(DateTime))
-                            // possible distinct values because time part is removed
-                            sourceObjectList = Items.Cast<object>()
-                                .Select(x => (object)((DateTime?)x.GetPropertyValue(fieldName))?.Date)
-                                .Distinct()
-                                .ToList();
-                        else
-                            sourceObjectList = Items.Cast<object>()
-                                .Select(x => x.GetPropertyValue(fieldName))
-                                .Distinct()
-                                .ToList();
-                    });
+            {
+                if (fieldType == typeof(DateTime))
+                    // possible distinct values because time part is removed
+                    sourceObjectList = Items.Cast<object>()
+                .Select(x => (object)((DateTime?)x.GetPropertyValue(fieldName))?.Date)
+                .Distinct()
+                .ToList();
+                else
+                    sourceObjectList = Items.Cast<object>()
+                .Select(x => x.GetPropertyValue(fieldName))
+                .Distinct()
+                .ToList();
+            });
 
                     // adds the previous filtered items to the list of new items (CurrentFilter.PreviouslyFilteredItems)
                     if (lastFilter == CurrentFilter.FieldName)

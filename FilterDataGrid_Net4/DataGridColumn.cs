@@ -48,6 +48,7 @@ namespace FilterDataGrid_Net4
 
     public class DataGridTextColumn : System.Windows.Controls.DataGridTextColumn, IFormula
     {
+
         protected override void OnBindingChanged(BindingBase oldBinding, BindingBase newBinding)
         {
             base.OnBindingChanged(oldBinding, newBinding);
