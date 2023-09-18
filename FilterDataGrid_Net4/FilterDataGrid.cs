@@ -44,6 +44,8 @@ namespace FilterDataGrid_Net4
             // var x = new ResourceDictionary_part();
             Class1.DataGridCell_MouseRightButtonDown += X_DataGridCell_MouseRightButtonDown;
             Class1.AddColumnClickEvent += Class1_AddColumnClickEvent; ;
+            Class1.IsLoadedButtonFilter += Class1_IsLoadedButtonFilter;
+
             //Console.WriteLine(this.DefaultStyleKey);
             //DefaultStyleKey = typeof(FilterDataGrid_Net4.FilterDataGrid);
 
@@ -75,6 +77,19 @@ namespace FilterDataGrid_Net4
             this.KeyDown += FilterDataGrid_KeyDown;
             this.Sorting += FilterDataGrid_Sorting;
         }
+
+        private void Class1_IsLoadedButtonFilter(Button arg1, DataGridColumnHeader arg2)
+        {
+            foreach (var item in GlobalFilterList)
+            {
+                if ((arg2.Column as IFilterFieldName).FieldName == item.FieldName)
+                {
+                    FilterState.SetIsFiltered(arg1, true);
+                    item.FilterButton = arg1;
+                }
+            }
+        }
+
         private List<SortDescription> SortDescriptions;
         private bool ShiftPressed { get { return (Keyboard.Modifiers & ModifierKeys.Shift) == ModifierKeys.Shift; } }
         private void FilterDataGrid_Sorting(object sender, DataGridSortingEventArgs e)
@@ -156,6 +171,8 @@ namespace FilterDataGrid_Net4
                                     }
                                     else
                                     {
+                                        // var zd=  this.Items[i].GetType().GetConstructor(Type.EmptyTypes).Invoke(null);
+
                                         (CollectionViewSource as IEditableCollectionView)?.AddNew();
                                     }
 

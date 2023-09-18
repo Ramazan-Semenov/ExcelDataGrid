@@ -226,18 +226,18 @@
 
                 </Button>
 
-                <MenuItem HorizontalContentAlignment="Left" VerticalContentAlignment="Center">
+                <!--<MenuItem HorizontalContentAlignment="Left" VerticalContentAlignment="Center">
                     <MenuItem.Header>
                         <TextBlock Text="Фильтр"  Margin="-9 0 0 0"/>
                     </MenuItem.Header>
                     <Button/>
-                </MenuItem>
-                <MenuItem HorizontalContentAlignment="Left" VerticalContentAlignment="Center">
+                </MenuItem>-->
+                <!--<MenuItem HorizontalContentAlignment="Left" VerticalContentAlignment="Center">
                     <MenuItem.Header>
                         <TextBlock Text="Сортировка"  Margin="-9 0 0 0"/>
                     </MenuItem.Header>
                     <Button/>
-                </MenuItem>
+                </MenuItem>-->
                 <Separator Height="1" Background="LightGray" Margin="25 0 0 0"/>
                 <Button Height="25"
                     BorderBrush="Transparent" BorderThickness="0"
@@ -738,8 +738,10 @@
                     Width="19" 
                     Margin="0 0 10 0"
                     VerticalAlignment="Bottom" 
+                    Loaded="Button_Loaded"
                     HorizontalAlignment="Right"
                     Height="19"
+                    CommandParameter="{Binding .,RelativeSource={RelativeSource AncestorType=DataGridColumnHeader}}"
                     control:FilterState.IsFiltered="False"
                     Command="{x:Static control:FilterDataGrid.ShowFilter}"
                     Cursor="Hand">

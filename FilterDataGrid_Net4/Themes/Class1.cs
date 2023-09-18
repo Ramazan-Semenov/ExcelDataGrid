@@ -31,17 +31,22 @@ namespace FilterDataGrid_Net4.Themes
 
             AddColumnClickEvent?.Invoke(sender, e);
         }
+        private void Button_Loaded(object sender, RoutedEventArgs e)
+        {
+            IsLoadedButtonFilter?.Invoke(sender as Button, (sender as Button).CommandParameter as DataGridColumnHeader);
+        }
         private void UpdateColumnClick(object sender, RoutedEventArgs e)
         {
 
             //UpdateColumnClickEvent?.Invoke(sender, e, (sender as Button).CommandParameter as DataGridColumnHeader);
 
-            Console.WriteLine((((sender as Button).CommandParameter as System.Windows.Controls.Primitives.Popup).PlacementTarget as System.Windows.Controls.DataGridCell).Column);
+            // Console.WriteLine((((sender as Button).CommandParameter as System.Windows.Controls.Primitives.Popup).PlacementTarget as System.Windows.Controls.DataGridCell).Column);
         }
         public static Action<DataGridColumnHeader, CommandContextMenu> AscDescClickEvent;
         public static event Action<object, MouseButtonEventArgs> DataGridCell_MouseRightButtonDown;
 
         public static event Action<object, RoutedEventArgs> AddColumnClickEvent;
+        public static event Action<Button, DataGridColumnHeader> IsLoadedButtonFilter;
         //  public static event Action<object, RoutedEventArgs, DataGridColumnHeader> UpdateColumnClickEvent;
 
     }

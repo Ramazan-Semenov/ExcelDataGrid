@@ -21,6 +21,11 @@ namespace Demo
             DataContext = this;
             MyDataGrid.ItemsSource = collection;
         }
+
+        private void Button_Loaded(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
     public class Empl : IColumnsToCalculate
     {

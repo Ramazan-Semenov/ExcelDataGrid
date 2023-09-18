@@ -7,15 +7,15 @@
         mc:Ignorable="d"
         xmlns:f="clr-namespace:FilterDataGrid_Net4;assembly=FilterDataGrid_Net4"
        xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="450" Width="800" Cursor="Hand">
     <Grid>
-
+        <!--<Button Loaded="Button_Loaded"/>-->
         <f:FilterDataGrid ColumnWidth="*" 
                           
                           Name="MyDataGrid" AutoGenerateColumns="False" Margin="10"  SelectionMode="Extended" SelectionUnit="CellOrRowHeader" BorderThickness="1" ShowRowsCount="True" PersistentFilter="False">
             <DataGrid.Columns>
-                <f:DataGridTextColumn IsColumnFiltered="True" FieldName="Name"  Header="Name" Binding="{Binding Name}"/>
-                <f:DataGridTextColumn  IsColumnFiltered="True" FieldName="Description" Header="Description" Binding="{Binding Description}"/>
+                <f:DataGridTextColumn Visibility="Visible" IsColumnFiltered="True" FieldName="Name"  Header="Name" Binding="{Binding Name}"/>
+                <f:DataGridTextColumn Visibility="Visible"  IsColumnFiltered="True" FieldName="Description" Header="Description" Binding="{Binding Description}"/>
                 <!--<DataGridTextColumn Header="Имя" Width="150" />
                 <DataGridTextColumn Header="Фамилия" Width="150" />
                 <DataGridTextColumn Header="Возраст" Width="100" />

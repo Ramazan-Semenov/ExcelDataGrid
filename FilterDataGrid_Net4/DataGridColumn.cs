@@ -1,5 +1,4 @@
-﻿using System;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Data;
 
 namespace FilterDataGrid_Net4
@@ -8,7 +7,11 @@ namespace FilterDataGrid_Net4
     {
         string Formula { get; set; }
     }
-    public class DataGridTemplateColumn : System.Windows.Controls.DataGridTemplateColumn, IFormula
+    public interface IFilterFieldName
+    {
+        string FieldName { get; set; }
+    }
+    public class DataGridTemplateColumn : System.Windows.Controls.DataGridTemplateColumn, IFormula, IFilterFieldName
     {
         #region Public Fields
 
@@ -46,7 +49,7 @@ namespace FilterDataGrid_Net4
         #endregion Public Properties
     }
 
-    public class DataGridTextColumn : System.Windows.Controls.DataGridTextColumn, IFormula
+    public class DataGridTextColumn : System.Windows.Controls.DataGridTextColumn, IFormula, IFilterFieldName
     {
 
         protected override void OnBindingChanged(BindingBase oldBinding, BindingBase newBinding)
@@ -56,8 +59,6 @@ namespace FilterDataGrid_Net4
         }
         protected override FrameworkElement GenerateElement(System.Windows.Controls.DataGridCell cell, object dataItem)
         {
-            Console.WriteLine(dataItem);
-            cell.Content = 0;
             return base.GenerateElement(cell, dataItem);
         }
         public DataGridTextColumn()
@@ -100,7 +101,7 @@ namespace FilterDataGrid_Net4
         #endregion Public Properties
     }
 
-    public class DataGridCheckBoxColumn : System.Windows.Controls.DataGridCheckBoxColumn, IFormula
+    public class DataGridCheckBoxColumn : System.Windows.Controls.DataGridCheckBoxColumn, IFormula, IFilterFieldName
     {
         #region Public Fields
         public string Formula { get; set; }
